@@ -1,0 +1,13 @@
+Set-ExecutionPolicy RemoteSigned   --> activate policy als admin
+python -V
+python -m venv venv ---> create py evn
+.\venv\Scripts\activate  --->  activate py evn
+deactivate --->  deactivate py evn
+pip install --proxy default-zscaler.iavgroup.local:80 --upgrade pip
+pip install --proxy default-zscaler.iavgroup.local:80 -r requirements.txt
+pip install --proxy default-zscaler.iavgroup.local:80 -r requirements_dev.txt
+pip freeze > requirements.txt  ----> update current reqs with versions
+
+//FastApi
+http://localhost:8000/docs
+uvicorn main:app --reload   ---> start server
