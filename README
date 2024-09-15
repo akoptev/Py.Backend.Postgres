@@ -11,3 +11,9 @@ pip freeze > requirements.txt  ----> update current reqs with versions
 //FastApi
 http://localhost:8000/docs
 uvicorn main:app --reload   ---> start server
+
+// Migrations
+alembic init migrations
+alembic revision --autogenerate -m "Initial Migration"
+alembic revision -m “Seed data”
+alembic upgrade head
