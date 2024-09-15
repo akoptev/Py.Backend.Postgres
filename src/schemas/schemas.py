@@ -1,8 +1,9 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, List, Optional
 from pydantic import BaseModel
 
 from enum_types.enum_types import AdminRoleType, QuestionGroupType
+from schemas.classes.classes import SelectionEntry
 
 
 class User(BaseModel):
@@ -19,14 +20,8 @@ class AdminUser(BaseModel):
     active: bool
 
 
-class GroupDataPrs(BaseModel):
-    low: Optional[List[str]]
-    middle: Optional[List[str]]
-    high: Optional[List[str]]
-
-
 class QuestionText(BaseModel):
-    id: int
+    id: str
     position: int
     question: str
     title: str
@@ -36,15 +31,10 @@ class QuestionText(BaseModel):
     group_data: Optional[str]
 
 
-class SelectionEntry(BaseModel):
-    selection: str
-    timestamp: datetime = datetime.now()
-
-
 class QuestionResult(BaseModel):
-    id: int
+    id: str
     vc_number: str
     question_id: str
     selection: Optional[str]
     updated_at: datetime = datetime.now()
-    selections_history: List[SelectionEntry]
+    selections_history: List[dict[str, Any]]

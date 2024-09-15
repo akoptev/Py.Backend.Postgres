@@ -1,8 +1,8 @@
+from shortuuid import uuid
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import (
     MetaData,
     Column,
-    Integer,
     String,
     TIMESTAMP,
     ForeignKey,
@@ -12,6 +12,8 @@ from sqlalchemy import (
     func,
 )
 
+from sqlalchemy.dialects.postgresql import UUID
+
 metadata = MetaData()
 
 Base = declarative_base()
@@ -20,8 +22,7 @@ Base = declarative_base()
 admin_user_table = Table(
     "admin_user",
     metadata,
-    Column("id", Integer, primary_key=True, autoincrement=True),
-    Column("name", String, nullable=False),
+    Column("name", String, primary_key=True),
     Column("role", String, nullable=False),
     Column("expire_at", TIMESTAMP, default=func.current_timestamp()),
     Column("active", Boolean, nullable=False),
@@ -35,7 +36,7 @@ class AdminUserModel(Base):
 question_text_table = Table(
     "question_text",
     metadata,
-    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("id", String, primary_key=True, default=lambda: uuid()),
     Column("position", String, nullable=False),
     Column("question", String, nullable=False),
     Column("title", String, nullable=False),
@@ -48,16 +49,23 @@ question_text_table = Table(
 question_result_table = Table(
     "question_result",
     metadata,
-    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("id", String, primary_key=True, default=lambda: uuid()),
     Column("vc_number", String, nullable=False),
-    Column("question_id", Integer, ForeignKey("question_text.id"), nullable=False),
+    Column(
+        "question_id",
+        String,
+        ForeignKey("question_text.id"),
+        nullable=False,
+    ),
     Column("selection", String),
     Column("selections_history", JSON),
     Column("updated_at", TIMESTAMP, default=func.current_timestamp(), nullable=False),
 )
 
+
 class QuestionTextModel(Base):
     __table__ = question_text_table
+
 
 class QuestionResultModel(Base):
     __table__ = question_result_table
