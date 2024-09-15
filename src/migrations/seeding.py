@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import sys
 from typing import List
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -11,15 +12,21 @@ from config import DB_HOST, DB_PORT, DB_USER, DB_NAME, DB_PASS
 from utils.utils import DateTimeEncoder
 
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
 engine = create_engine(DATABASE_URL)
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 session = Session()
 
 
 def seed_db_data():
-    questions_count: int = session.query(QuestionTextModel).count()
-    if questions_count != 0:
-        return
+    try:
+        questions_count: int = session.query(QuestionTextModel).count()
+        if questions_count != 0:
+            return
+    except Exception:
+        print(f"Database connection error: {DATABASE_URL}. Shutting down...")
+        sys.exit(1)
+
     seed_questions()
     seed_results()
 
