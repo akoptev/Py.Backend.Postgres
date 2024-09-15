@@ -55,9 +55,7 @@ def seed_questions():
 
 
 def seed_results(question_id: str):
-    selection_entry = SelectionEntry(
-        selection="4", timestamp=datetime.now()
-    ).model_dump()
+    selection_entry = SelectionEntry(selection="4", timestamp=datetime.now())
     result = QuestionResult(
         id="1",
         vc_number="12345",

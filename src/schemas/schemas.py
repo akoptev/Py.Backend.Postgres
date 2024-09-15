@@ -33,19 +33,24 @@ class QuestionText(BaseModel):
     group_data: Optional[str]
 
 
+class SelectionEntry(BaseModel):
+    selection: str
+    timestamp: datetime = datetime.now()
+
+
 class QuestionResult(BaseModel):
     id: str
     vc_number: str
     question_id: str
     selection: Optional[str]
     updated_at: datetime = datetime.now()
-    selections_history: List[dict[str, Any]]
+    selections_history: List[SelectionEntry]
 
-    def mapToModel(self) -> dict[str, Any]:
+    def mapToModel(self):
         unwrap: dict[str, Any] = {
             **dict(self),
             "selections_history": json.dumps(
-                self.selections_history, cls=DateTimeEncoder
+                [dict(se) for se in self.selections_history], cls=DateTimeEncoder
             ),
         }
         return unwrap
