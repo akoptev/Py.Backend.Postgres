@@ -1,7 +1,6 @@
 from datetime import datetime
 import json
 import sys
-from typing import List
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -10,7 +9,6 @@ from models.models import QuestionResultModel, QuestionTextModel
 from schemas.classes.classes import GroupDataPrs
 from schemas.schemas import QuestionResult, SelectionEntry
 from config import DB_HOST, DB_PORT, DB_USER, DB_NAME, DB_PASS
-from utils.utils import DateTimeEncoder
 
 DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 

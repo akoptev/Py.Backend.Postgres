@@ -33,11 +33,6 @@ class QuestionText(BaseModel):
     group_data: Optional[str]
 
 
-class SelectionEntry(BaseModel):
-    selection: str
-    timestamp: datetime = datetime.now()
-
-
 class QuestionResult(BaseModel):
     id: str
     vc_number: str
