@@ -1,9 +1,11 @@
 from datetime import datetime
+import json
 from typing import Any, List, Optional
 from pydantic import BaseModel
 
 from enum_types.enum_types import AdminRoleType, QuestionGroupType
 from schemas.classes.classes import SelectionEntry
+from utils.utils import DateTimeEncoder
 
 
 class User(BaseModel):
@@ -38,3 +40,12 @@ class QuestionResult(BaseModel):
     selection: Optional[str]
     updated_at: datetime = datetime.now()
     selections_history: List[dict[str, Any]]
+
+    def mapToModel(self) -> dict[str, Any]:
+        unwrap: dict[str, Any] = {
+            **dict(self),
+            "selections_history": json.dumps(
+                self.selections_history, cls=DateTimeEncoder
+            ),
+        }
+        return unwrap

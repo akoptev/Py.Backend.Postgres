@@ -55,28 +55,19 @@ def seed_questions():
 
 
 def seed_results(question_id: str):
-    selectionEntry = [SelectionEntry(
+    selection_entry = SelectionEntry(
         selection="4", timestamp=datetime.now()
-    ).model_dump()]
-
+    ).model_dump()
     result = QuestionResult(
         id="1",
         vc_number="12345",
         question_id=question_id,
         selection="Point 1",
         updated_at=datetime.now(),
-        selections_history=selectionEntry,
+        selections_history=[selection_entry],
     )
-    selectionEntryJson = json.dumps(result.selections_history, cls=DateTimeEncoder)
 
-    resultModel = QuestionResultModel(
-        vc_number=result.vc_number,
-        question_id=result.question_id,
-        selection=result.selection,
-        updated_at=result.updated_at,
-        selections_history=selectionEntryJson,
-    )
-    session.add(resultModel)
+    session.add(QuestionResultModel(**result.mapToModel()))
 
 
 def delete_records():
