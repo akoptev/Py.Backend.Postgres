@@ -5,10 +5,12 @@ from fastapi.exceptions import ValidationException
 from fastapi.responses import JSONResponse
 
 from enum_types.enum_types import QuestionGroupType
+from migrations.seeding import seed_db_data
 from schemas.schemas import AdminUser, QuestionResult, QuestionText, User
 
 
 app = FastAPI(title="Trading App")
+seed_db_data()
 
 
 # Improve Logs for "Internal server error"

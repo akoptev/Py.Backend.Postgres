@@ -9,7 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "module": "uvicorn",
-            "cwd": "src",
+            "cwd": "${workspaceRoot}/src",
             "purpose": ["debug-in-terminal"],
             "args": [
                 "main:app",
