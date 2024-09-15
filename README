@@ -15,5 +15,4 @@ uvicorn main:app --reload   ---> start server
 // Migrations
 alembic init migrations
 alembic revision --autogenerate -m "Initial Migration"
-alembic revision -m “Seed data”
 alembic upgrade head

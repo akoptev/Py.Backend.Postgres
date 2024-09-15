@@ -19,6 +19,12 @@ class AdminUser(BaseModel):
     active: bool
 
 
+class GroupDataPrs(BaseModel):
+    low: Optional[List[str]]
+    middle: Optional[List[str]]
+    high: Optional[List[str]]
+
+
 class QuestionText(BaseModel):
     id: int
     position: int
@@ -30,10 +36,9 @@ class QuestionText(BaseModel):
     group_data: Optional[str]
 
 
-class GroupDataPrs(BaseModel):
-    low: Optional[List[str]]
-    middle: Optional[List[str]]
-    high: Optional[List[str]]
+class SelectionEntry(BaseModel):
+    selection: str
+    timestamp: datetime = datetime.now()
 
 
 class QuestionResult(BaseModel):
@@ -42,3 +47,4 @@ class QuestionResult(BaseModel):
     question_id: str
     selection: Optional[str]
     updated_at: datetime = datetime.now()
+    selections_history: List[SelectionEntry]

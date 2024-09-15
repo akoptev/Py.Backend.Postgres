@@ -53,6 +53,7 @@ question_result_table = Table(
     Column("vc_number", String, nullable=False),
     Column("question_id", Integer, ForeignKey("question_text.id"), nullable=False),
     Column("selection", String),
+    Column("selections_history", JSON),
     Column("updated_at", TIMESTAMP, default=func.current_timestamp(), nullable=False),
 )
 

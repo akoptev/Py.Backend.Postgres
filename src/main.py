@@ -1,10 +1,10 @@
 from typing import List
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, Request, Response, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import ValidationException
 from fastapi.responses import JSONResponse
 
-from enum_types.enum_types import QuestionGroupType
+from enum_types.enum_types import AdminRoleType, QuestionGroupType
 from migrations.seeding import seed_db_data
 from schemas.schemas import AdminUser, QuestionResult, QuestionText, User
 
@@ -22,18 +22,26 @@ async def validation_exception_handler(request: Request, exc: ValidationExceptio
     )
 
 
-@app.get("/user/login", response_model=User)
-def user_login():
-    return {"status": 200, "data": "added"}
+@app.get("/user/login")
+def user_login(response: Response) -> User:
+    user = User(
+        name="UserName",
+        token="fsdfk34545345",
+        role=AdminRoleType.user,
+        vc_numbers=["12345"],
+    )
+    response.status_code = status.HTTP_202_ACCEPTED
+    return user
 
 
 @app.post("/admin/add")
-def add_admin_user(user: AdminUser):
-    return {"status": 200, "data": "added"}
+def add_admin_user(user: AdminUser, response: Response) -> str:
+    response.status_code = status.HTTP_202_ACCEPTED
+    return "ok"
 
 
-@app.get("/questions/{vc}", response_model=List[QuestionText])
-def get_questions(vc: str):
+@app.get("/questions/{vc}")
+def get_questions(vc: str) -> List[QuestionText]:
     question = QuestionText(
         id=1,
         position=1,
@@ -47,5 +55,5 @@ def get_questions(vc: str):
 
 
 @app.post("/questions/result")
-def save_questions_results(question_results: List[QuestionResult]):
-    return {"status": 200, "data": "saved"}
+def save_questions_results(question_results: List[QuestionResult]) -> str:
+    return "ok"
